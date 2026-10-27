@@ -1,0 +1,132 @@
+@import 'tailwindcss' source('../');
+
+@theme {
+  --color-night: #080b22;
+  --color-ink: #11163a;
+  --color-dusk: #1c2357;
+  --color-gold: #d9ad55;
+  --color-gold-soft: #f0d79a;
+  --color-saffron: #e8772e;
+  --color-parchment: #f4ead3;
+  --color-parchment-deep: #e6d6b0;
+  --color-umber: #3b2a17;
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-body: 'Hind', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-night);
+  color: var(--color-parchment);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-night);
+}
+
+/* Fixed starfield + grain behind everything */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 8%, #fff6 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 38% 64%, #f0d79a88 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 46%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 88%, #fff4 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 32%, #fff5 50%, transparent 51%),
+    radial-gradient(
+      60rem 40rem at 85% -10%,
+      #1c2357 0%,
+      transparent 70%
+    ),
+    radial-gradient(40rem 30rem at -10% 60%, #2a1a3a55 0%, transparent 70%),
+    var(--color-night);
+}
+
+.sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.eyebrow {
+  @apply text-xs font-semibold uppercase tracking-[0.3em] text-gold;
+}
+
+.ornament {
+  @apply flex items-center gap-4 text-gold;
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  @apply h-px flex-1 bg-gradient-to-r from-transparent via-gold/60 to-transparent;
+}
+
+.action {
+  @apply inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 font-semibold text-night shadow-[0_0_40px_-8px] shadow-gold/60 transition hover:-translate-y-0.5 hover:bg-gold-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold active:translate-y-0 disabled:cursor-wait disabled:opacity-70;
+}
+
+.action-ghost {
+  @apply inline-flex items-center gap-2 rounded-full border border-gold/50 px-7 py-3 font-semibold text-gold-soft transition hover:border-gold hover:bg-gold/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold;
+}
+
+.form-label {
+  @apply mb-2 block text-sm font-semibold text-umber;
+}
+
+.form-input {
+  @apply w-full rounded-xl border border-umber/25 bg-white/70 px-4 py-3 text-night placeholder:text-umber/40 transition focus:border-saffron focus:bg-white focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-saffron;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.slow-turn {
+  animation: turn 240s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .slow-turn {
+    animation: none;
+  }
+}
